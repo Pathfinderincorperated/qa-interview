@@ -33,7 +33,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                     <span class="text-sm text-muted-foreground">Data Bank entries</span>
                     <button
                         type="button"
-                        class="mt-3 w-fit rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium hover:bg-accent"
+                        class="mt-3 w-fit rounded-md border border-input bg-white px-3 py-1.5 text-sm font-medium hover:bg-accent"
                     >
                         View summary
                     </button>

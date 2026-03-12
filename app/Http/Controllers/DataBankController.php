@@ -21,35 +21,20 @@ class DataBankController extends Controller
         return Inertia::render('DataBank/Index', [
             'entries' => $entries,
             'exportUrl' => route('data-bank.export'),
-            'canExportDataBank' => $this->userCanExportDataBank($request->user()),
         ]);
     }
 
     /**
-     * Export data bank as CSV. Restricted to certain users.
+     * Export data bank as CSV. Any authenticated user may export. Intentionally returns empty file.
      */
     public function export(Request $request): StreamedResponse
     {
-        if (! $request->user()->is_admin) {
-            abort(403, 'You do not have permission to export the data bank.');
-        }
-
-        $entries = DataEntry::where('user_id', $request->user()->id)
-            ->with('category')
-            ->orderBy('created_at', 'desc')
-            ->get();
-
         $headers = [
-            'Content-Type' => 'text/csv',
+            'Content-Type' => 'text/csv; charset=UTF-8',
             'Content-Disposition' => 'attachment; filename="data-bank.csv"',
         ];
 
         return response()->stream(function () {
         }, 200, $headers);
-    }
-
-    private function userCanExportDataBank($user): bool
-    {
-        return $user && $user->is_admin;
     }
 }

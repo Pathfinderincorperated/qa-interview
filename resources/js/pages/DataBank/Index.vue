@@ -16,7 +16,6 @@ interface DataEntry {
 const props = defineProps<{
     entries: DataEntry[];
     exportUrl: string;
-    canExportDataBank: boolean;
 }>();
 
 const searchQuery = ref('');
@@ -47,7 +46,6 @@ function onRefresh() {
                         >
                             Refresh
                         </button>
-                        <span class="mt-1 text-xs text-muted-foreground">Reloads the list</span>
                     </div>
                     <a
                         :href="exportUrl"

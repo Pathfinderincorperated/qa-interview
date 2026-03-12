@@ -64,14 +64,17 @@ withDefaults(
                         This app is used for our QA interview. It has login and registration, a dashboard, and a <strong>Data Bank</strong> section where you can view your data entries, search them, and export them. All data bank entries have a category. Only admin users can export the data bank.
                     </p>
                     <p class="mb-3 text-base font-semibold leading-snug text-[#1b1b18] dark:text-[#EDEDEC]">
-                        Use any of the accounts below to log in (password for all: <strong>{{ testPassword }}</strong>). Explore the app and find the bugs and perofrmance issues
+                        Use any of the accounts below to log in (password for all: <strong>{{ testPassword }}</strong>). Explore the app and find the bugs and performance issues.
                     </p>
-                    <ul class="mb-6 list-inside list-disc text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC]">
+                    <ul class="mb-4 list-inside list-disc text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC]">
                         <li v-for="account in testAccounts" :key="account.email">
                             <span class="font-mono">{{ account.email }}</span>
                             <span class="text-muted-foreground"> ({{ account.role }})</span>
                         </li>
                     </ul>
+                    <p class="mb-6 text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC]">
+                        Document each bug you find in <strong>Jira</strong>: use a clear title, steps to reproduce, expected vs actual behaviour, and any relevant environment or version details.
+                    </p>
                     <div v-if="!$page.props.auth.user" class="flex flex-wrap gap-3">
                         <Link
                             :href="login()"
