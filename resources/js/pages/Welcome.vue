@@ -1,0 +1,102 @@
+<script setup lang="ts">
+import { Head, Link } from '@inertiajs/vue3';
+import { dashboard, login, register } from '@/routes';
+
+withDefaults(
+    defineProps<{
+        canRegister: boolean;
+        testAccounts: { email: string; role: string }[];
+        testPassword: string;
+    }>(),
+    {
+        canRegister: true,
+        testAccounts: () => [],
+        testPassword: 'password',
+    },
+);
+</script>
+
+<template>
+    <Head title="Welcome">
+        <link rel="preconnect" href="https://rsms.me/" />
+        <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    </Head>
+    <div
+        class="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] lg:justify-center lg:p-8 dark:bg-[#0a0a0a]"
+    >
+        <header
+            class="mb-6 w-full max-w-[335px] text-sm not-has-[nav]:hidden lg:max-w-4xl"
+        >
+            <nav class="flex items-center justify-end gap-4">
+                <Link
+                    v-if="$page.props.auth.user"
+                    :href="dashboard()"
+                    class="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
+                >
+                    Dashboard
+                </Link>
+                <template v-else>
+                    <Link
+                        :href="login()"
+                        class="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
+                    >
+                        Log in
+                    </Link>
+                    <Link
+                        v-if="canRegister"
+                        :href="register()"
+                        class="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
+                    >
+                        Register
+                    </Link>
+                </template>
+            </nav>
+        </header>
+        <div
+            class="flex w-full items-center justify-center opacity-100 transition-opacity duration-750 lg:grow starting:opacity-0"
+        >
+            <main class="w-full max-w-2xl">
+                <div
+                    class="rounded-lg bg-white p-8 pb-12 shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:bg-[#161615] dark:text-[#EDEDEC] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d] lg:p-12"
+                >
+                    <h1 class="mb-5 text-xl font-bold">QA Assessment</h1>
+                    <p class="mb-4 text-base font-semibold leading-snug text-[#1b1b18] dark:text-[#EDEDEC]">
+                        This app is used for our QA interview. It has login and registration, a dashboard, and a <strong>Data Bank</strong> section where you can view your data entries, search them, and export them. All data bank entries have a category. Only admin users can export the data bank.
+                    </p>
+                    <p class="mb-3 text-base font-semibold leading-snug text-[#1b1b18] dark:text-[#EDEDEC]">
+                        Use any of the accounts below to log in (password for all: <strong>{{ testPassword }}</strong>). Explore the app and find the bugs and perofrmance issues
+                    </p>
+                    <ul class="mb-6 list-inside list-disc text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC]">
+                        <li v-for="account in testAccounts" :key="account.email">
+                            <span class="font-mono">{{ account.email }}</span>
+                            <span class="text-muted-foreground"> ({{ account.role }})</span>
+                        </li>
+                    </ul>
+                    <div v-if="!$page.props.auth.user" class="flex flex-wrap gap-3">
+                        <Link
+                            :href="login()"
+                            class="inline-block rounded-sm border border-black bg-[#1b1b18] px-5 py-2 text-sm leading-normal text-white hover:border-black hover:bg-black dark:border-[#eeeeec] dark:bg-[#eeeeec] dark:text-[#1C1C1A] dark:hover:border-white dark:hover:bg-white"
+                        >
+                            Log in
+                        </Link>
+                        <Link
+                            v-if="canRegister"
+                            :href="register()"
+                            class="inline-block rounded-sm border border-[#19140035] px-5 py-2 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
+                        >
+                            Register
+                        </Link>
+                    </div>
+                    <Link
+                        v-else
+                        :href="dashboard()"
+                        class="inline-block rounded-sm border border-black bg-[#1b1b18] px-5 py-2 text-sm leading-normal text-white hover:border-black hover:bg-black dark:border-[#eeeeec] dark:bg-[#eeeeec] dark:text-[#1C1C1A] dark:hover:border-white dark:hover:bg-white"
+                    >
+                        Go to Dashboard
+                    </Link>
+                </div>
+            </main>
+        </div>
+        <div class="hidden h-14.5 lg:block"></div>
+    </div>
+</template>
